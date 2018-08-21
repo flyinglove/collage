@@ -19,10 +19,25 @@
         <div class="price">
           <span class="price--active">&yen;{{product.groupPrice}}</span>
           <span class="price--original">&yen;{{product.originalPrice}}</span>
+          <span v-if="product.delivery" class="price--tag">包邮</span>
         </div>
-        <span class="info">已拼{{sellNum}}件</span>
+        <span class="info--num">已拼{{sellNum}}件</span>
+      </div>
+      <div class="info--title">
+        <h2>{{product.productName}}</h2>
+        <span class="info--share">
+          <i class="share--icon"></i>
+          <i class="share--text">分享</i>
+        </span>
+      </div>
+      <div class="info--text">
+        开团并邀请好友参团，人数不足自动退款
       </div>
     </div>
+    <panel class="group">
+      <h2 slot="left">99人正在拼团</h2>
+      <div slot="right">查看更多</div>
+    </panel>
   </div>
 </template>
 
@@ -30,6 +45,8 @@
   import {getData} from '@/service/getData'
   import {PRODUCT_INFO} from '../../conf/api'
   import util from '@/util/util'
+
+  import Panel from '@/base/Panel/Panel'
   export default {
     name: 'ProductInfo',
     data () {
@@ -49,12 +66,18 @@
       sellNum () {
         return this.product.total - this.product.inventory
       }
+    },
+    components: {
+      Panel
     }
   }
 </script>
 
 <style lang="stylus" scoped>
+@import "../../styl/variable.styl"
 @import "../../styl/mixin.styl"
+.product-info
+  background-color: $dj-bg-grey
 .slide
   position: relative
   img
@@ -98,4 +121,82 @@
     color: #ffffff
     &::before
       line-1px-left(#ffffff)
+.info
+  padding-left: 15px
+  padding-right: 13px
+  padding-top: 5px
+  padding-bottom: 13px
+  background-color: #fff
+  &--top
+    display: flex
+    justify-content space-between
+    align-items: center
+    .price
+      .price--active
+        font-size: 28px
+        color: $dj-color-red
+      .price--original
+        font-size: 13px
+        color: $dj-color-grey-light
+      &--tag
+        position: relative
+        font-size: 11px
+        color: $dj-color-red
+        box-sizing: border-box
+        &::before
+          border-1px()
+  &--num
+    font-size: 12px
+    color: $dj-color-grey-light
+  &--title
+    display: flex
+    justify-content space-between
+    align-items center
+    h2
+      display: -webkit-box
+      margin-right: 25px
+      -webkit-box-orient: vertical
+      -webkit-line-clamp: 2
+      max-height: 42px
+      overflow: hidden
+      line-height: 21px
+      font-size: 18px
+      font-weight: bold
+      color: $dj-color-dark
+  &--share
+    display: block
+    width: 24px
+    font-size: 0
+    .share--icon
+      display: block
+      width: 22px
+      height: 22px
+      back-img('./', 'fx')
+    .share--text
+      font-size: 12px
+      font-style: normal
+      white-space nowrap
+  &--text
+    margin-top: 8px
+    font-size: 12px
+    color: $dj-color-grey-light
+.group
+  margin-top: 10px
+  background-color: #fff
+  h2
+    font-size: 16px
+    font-weight: bold
+    color: $dj-color-dark
+  div
+    position: relative
+    font-size: 13px
+    color: $dj-color-grey-dark
+    &::after
+      content: ''
+      display: inline-block
+      width: 6px
+      height: 12px
+      margin-left: 5px
+      vertical-align: top
+      back-img('./', 'ckgd')
 </style>

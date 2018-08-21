@@ -15,3 +15,15 @@ line-1px-left($color)
   background-color: $color
   transform: scaleX(.5)
   transform-origin: 1px 0
+
+border-1px($color=currentColor)
+  content: ''
+  position: absolute
+  left: 0
+  top: 0
+  width: 200%
+  height: 200%
+  border: 1px solid $color
+  box-sizing: border-box
+  transform: scale(.5, .5)
+  transform-origin: 0 0
