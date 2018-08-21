@@ -1,0 +1,17 @@
+back-img($path, $url)
+  background-image: url($path + $url + '@2x.png')
+  background-size: cover
+  background-repeat: no-repeat
+  @media screen and (-webkit-min-device-pixel-ratio: 3)
+    background-image: url($path + $url + '@3x.png')
+
+line-1px-left($color)
+  content: ''
+  position: absolute
+  top: 0
+  left: 0
+  bottom: 0
+  width: 1px
+  background-color: $color
+  transform: scaleX(.5)
+  transform-origin: 1px 0

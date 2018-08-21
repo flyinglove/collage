@@ -1,15 +1,29 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/ProductInfo/ProductInfo'
 
 Vue.use(Router)
+
+const ProductInfo = () => import('@/components/ProductInfo/ProductInfo')
+const PlaceOrder = () => import('@/components/PlaceOrder/PlaceOrder')
+const OrderDetail = () => import('@/components/OrderDetail/OrderDetail')
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      redirect: '/productinfo'
+    },
+    {
+      path: '/productinfo',
+      component: ProductInfo
+    },
+    {
+      path: '/placeorder',
+      component: PlaceOrder
+    },
+    {
+      path: '/orderdetail',
+      component: OrderDetail
     }
   ]
 })
