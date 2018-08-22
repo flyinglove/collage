@@ -35,40 +35,60 @@
       </div>
     </div>
     <panel class="group">
-      <h2 slot="left">99人正在拼团</h2>
+      <h2 slot="left">{{totalGroup}}人正在拼团</h2>
       <div slot="right">查看更多</div>
+      <div slot="content">
+        <group-list-item :item="groupData[0]"></group-list-item>
+      </div>
     </panel>
   </div>
 </template>
 
 <script>
   import {getData} from '@/service/getData'
-  import {PRODUCT_INFO} from '../../conf/api'
+  import {PRODUCT_INFO, GROUP_GOING} from '../../conf/api'
   import util from '@/util/util'
 
   import Panel from '@/base/Panel/Panel'
+  import GroupListItem from '@/components/GroupListItem/GroupListItem'
   export default {
     name: 'ProductInfo',
     data () {
       return {
         product: {},
-        activity: {}
+        activity: {},
+        totalGroup: 0,
+        groupData: []
       }
     },
     async created () {
-      let id = util.getUrlParam('productId')
-      let data = await getData(PRODUCT_INFO, {id})
-      let {product, activity} = data.data
-      this.product = product
-      this.activity = activity
+      this.getProductInfo()
+      this.getGroupData()
     },
     computed: {
       sellNum () {
         return this.product.total - this.product.inventory
       }
     },
+    methods: {
+      async getProductInfo () {
+        let id = util.getUrlParam('productId')
+        let data = await getData(PRODUCT_INFO, {id})
+        let {product, activity} = data.data
+        this.product = product
+        this.activity = activity
+      },
+      async getGroupData () {
+        let id = util.getUrlParam('productId')
+        let group = await getData(GROUP_GOING, {id})
+        let {totalGroup, groups: groupData} = group.data
+        this.totalGroup = totalGroup
+        this.groupData = groupData
+      }
+    },
     components: {
-      Panel
+      Panel,
+      GroupListItem
     }
   }
 </script>

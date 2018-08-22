@@ -5,3 +5,4 @@ if (env === 'development') {
 }
 
 export const PRODUCT_INFO = `${API_DOMAIN}group/product`
+export const GROUP_GOING = `${API_DOMAIN}group/ongoingGroup`
