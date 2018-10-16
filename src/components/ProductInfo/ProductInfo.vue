@@ -36,9 +36,11 @@
     </div>
     <panel class="group">
       <h2 slot="left">{{totalGroup}}人正在拼团</h2>
-      <div slot="right">查看更多</div>
+      <div slot="right">查看更多<i class="ckgd-icon"></i></div>
       <div slot="content">
-        <group-list-item :item="groupData[0]"></group-list-item>
+        <div v-for="(groupItem, index) in groupData" :key="index">
+          <group-list-item :time="time" :item="groupItem"></group-list-item>
+        </div>
       </div>
     </panel>
   </div>
@@ -58,12 +60,16 @@
         product: {},
         activity: {},
         totalGroup: 0,
-        groupData: []
+        groupData: [],
+        time: 0
       }
     },
     async created () {
       this.getProductInfo()
       this.getGroupData()
+      this.timer = setInterval(() => {
+        this.time++
+      }, 1000)
     },
     computed: {
       sellNum () {
@@ -86,6 +92,9 @@
         this.groupData = groupData
       }
     },
+    destroyed () {
+      clearInterval(this.timer)
+    },
     components: {
       Panel,
       GroupListItem
@@ -100,6 +109,7 @@
   background-color: $dj-bg-grey
 .slide
   position: relative
+  overflow: hidden
   img
     width: 100%
     object-fit cover
@@ -211,8 +221,7 @@
     position: relative
     font-size: 13px
     color: $dj-color-grey-dark
-    &::after
-      content: ''
+    .ckgd-icon
       display: inline-block
       width: 6px
       height: 12px
