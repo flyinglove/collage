@@ -9,7 +9,7 @@ function getUrlParam (key) {
 }
 
 function timeTick (timeDelta) {
-  let timeDeltaSec = timeDelta / 1000
+  let timeDeltaSec = Math.floor(timeDelta / 1000)
   let hours = Math.floor(timeDeltaSec / 3600)
   let minutes = Math.floor((timeDeltaSec - hours * 3600) / 60)
   let seconds = timeDeltaSec - hours * 3600 - minutes * 60

@@ -1,16 +1,20 @@
 <template>
   <div class="group-item">
-    <div class="group-item-left">
+    <div class="group-item--left">
       <img :src="item.avatar" alt="">
       <p>{{item.nickname}}</p>
     </div>
-    <div class="group-item-right">
-      <p>
-        还差<span>{{item.remainingNum}}人</span>成团
-      </p>
-      <span>{{timeData.hours}}:{{timeData.minutes}}:{{timeData.seconds}}</span>
-      <big-button class="btn">
-        <span>去参团</span>
+    <div class="group-item--right">
+      <div class="item-info">
+        <p class="item-info_p--num">
+          还差<span>{{item.remainingNum}}人</span>成团
+        </p>
+        <p class="item-info_p--time">
+          剩余<span>{{timeData.hours}}:{{timeData.minutes}}:{{timeData.seconds}}</span>
+        </p>
+      </div>
+      <big-button class="btn" :class="{'btn-disable': !btnStatus.enabled}" :disabled="!btnStatus.enabled">
+        <span>{{btnStatus.btnText}}</span>
       </big-button>
     </div>
   </div>
@@ -37,13 +41,28 @@
           hours: '00',
           minutes: '00',
           seconds: '00'
+        },
+        btnStatus: {
+          btnText: '去参团',
+          enabled: true
         }
       }
     },
-    watch: {
-      time (o, n) {
-        this.timeData = util.timeTick(this.item.endTime - this.item.now - n)
-      }
+    mounted () {
+      let unwatch = this.$watch('time', (n, o) => {
+        let timeDelta = this.item.endTime - this.item.now - n * 1000
+        if (timeDelta === 0) {
+          unwatch()
+          this.btnStatus = {
+            btnText: '已结束',
+            enabled: false
+          }
+        } else {
+          this.timeData = util.timeTick(timeDelta)
+        }
+      }, {
+        immediate: true
+      })
     },
     components: {
       BigButton
@@ -52,6 +71,7 @@
 </script>
 
 <style lang="stylus" scoped>
+  @import "../../styl/variable.styl"
 .group-item
   position: relative
   display: flex
@@ -70,7 +90,7 @@
     height: 1px
     transform: scaleY(.5)
     background-color: #e8ebf0
-  &-left
+  &--left
     display: flex
     align-items center
   img
@@ -78,8 +98,22 @@
     height: 33px
     margin-right: 10px
   .btn
-    padding: 10px 12px 8px
+    margin-left: 10px
+    padding: 8px 12px 8px
     border-radius: 4px
-  &-right
+  &--right
     display: flex
+  .item-info
+    &_p--num
+      margin-bottom: 8px
+      font-family: "PingFangSC-Medium"
+      font-size: 14px
+      line-height: 1
+      color: $dj-color-dark
+      span
+        color: $dj-color-red
+    &_p--time
+      font-family: "PingFangSC-Regular"
+      font-size: 12px
+      color: $dj-color-grey-light
 </style>

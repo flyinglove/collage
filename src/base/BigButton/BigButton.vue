@@ -1,7 +1,7 @@
 <template>
-  <div class="big-button" @click="btnClick">
+  <button class="big-button" @click="btnClick">
     <slot>立即开团</slot>
-  </div>
+  </button>
 </template>
 
 <script>
@@ -21,10 +21,14 @@
   display: flex
   align-items: center
   border-radius: 2px
+  border: none
   text-align: center
   background-color: $dj-color-red
+  outline: none
   span
     flex: 1
     text-align: center
     color: #ffffff
+  &.btn-disable
+    background-color: $dj-btn-disabled
 </style>
