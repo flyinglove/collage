@@ -1,5 +1,5 @@
 <template>
-  <div class="group-item">
+  <div class="group-item" v-if="item">
     <div class="group-item--left">
       <img :src="item.avatar" alt="">
       <p>{{item.nickname}}</p>
@@ -50,15 +50,17 @@
     },
     mounted () {
       let unwatch = this.$watch('time', (n, o) => {
-        let timeDelta = this.item.endTime - this.item.now - n * 1000
-        if (timeDelta === 0) {
-          unwatch()
-          this.btnStatus = {
-            btnText: '已结束',
-            enabled: false
+        if (this.item) {
+          let timeDelta = this.item.endTime - this.item.now - n * 1000
+          if (timeDelta === 0) {
+            unwatch()
+            this.btnStatus = {
+              btnText: '已结束',
+              enabled: false
+            }
+          } else {
+            this.timeData = util.timeTick(timeDelta)
           }
-        } else {
-          this.timeData = util.timeTick(timeDelta)
         }
       }, {
         immediate: true

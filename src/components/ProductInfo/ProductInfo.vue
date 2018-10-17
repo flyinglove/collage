@@ -38,8 +38,13 @@
       <h2 slot="left">{{totalGroup}}人正在拼团</h2>
       <div slot="right">查看更多<i class="ckgd-icon"></i></div>
       <div slot="content">
-        <div v-for="(groupItem, index) in groupData" :key="index">
-          <group-list-item :time="time" :item="groupItem"></group-list-item>
+        <div class="group-list" v-if="groupData.length">
+          <cube-slide @scroll="scrollHandle" class="list-slide" direction="vertical" :showDots="false" :autoPlay="true" :interval="4000">
+            <cube-slide-item v-for="(groupItem, index) in groupData" v-if="index % 2 === 0" :key="index">
+              <group-list-item :time="time" :item="groupData[index]"></group-list-item>
+              <group-list-item :time="time" :item="groupData[index + 1]"></group-list-item>
+            </cube-slide-item>
+          </cube-slide>
         </div>
       </div>
     </panel>
@@ -90,6 +95,9 @@
         let {totalGroup, groups: groupData} = group.data
         this.totalGroup = totalGroup
         this.groupData = groupData
+      },
+      scrollHandle () {
+        return false
       }
     },
     destroyed () {
@@ -228,4 +236,13 @@
       margin-left: 5px
       vertical-align: top
       back-img('./', 'ckgd')
+  .group-list
+    position: relative
+    max-height: 136px
+    overflow: hidden
+    .list-slide
+      position: initial
+      height: 136px
+      /deep/ .cube-slide-item
+        float: initial
 </style>
