@@ -15,7 +15,7 @@ export interface ContainerProps {
   padding: number;
   width: string;
   height: string;
-  background: string;
+  alignSelf: 'auto' | 'stretch' | 'start' | 'center' | 'end';
 }
 
 export interface ContainerNode extends BaseNode<'container', ContainerProps> {

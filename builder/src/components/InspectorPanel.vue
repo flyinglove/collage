@@ -60,8 +60,14 @@
           </div>
         </div>
         <div>
-          <label class="label">背景色</label>
-          <input v-model="node.props.background" class="input" type="color" />
+          <label class="label">交叉轴定位</label>
+          <select v-model="node.props.alignSelf" class="input">
+            <option value="auto">自动</option>
+            <option value="stretch">拉伸</option>
+            <option value="start">头部</option>
+            <option value="center">居中</option>
+            <option value="end">尾部</option>
+          </select>
         </div>
       </div>
     </template>
