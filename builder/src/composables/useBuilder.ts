@@ -42,7 +42,7 @@ const defaultContainerProps = (): ContainerProps => ({
   padding: 16,
   width: '100%',
   height: 'auto',
-  background: '#ffffff'
+  alignSelf: 'stretch'
 });
 
 const rootNode: ContainerNode = reactive({
@@ -51,8 +51,7 @@ const rootNode: ContainerNode = reactive({
   props: {
     ...defaultContainerProps(),
     name: '页面根容器',
-    padding: 24,
-    background: '#f8fafc'
+    padding: 24
   },
   children: []
 });

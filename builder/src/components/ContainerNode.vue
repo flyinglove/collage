@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded-2xl border border-dashed border-slate-300 bg-white"
+    class="rounded-2xl border border-dashed border-slate-300 min-h-[120px]"
     :class="{ 'ring-2 ring-blue-500 border-transparent': isSelected }"
     :style="containerStyle"
     @click.stop="handleSelect"
@@ -23,16 +23,16 @@
     <section class="relative min-h-[160px] rounded-b-2xl" :style="bodyStyle">
       <template v-if="node.children.length">
         <template v-for="child in node.children" :key="child.id">
-          <div class="flex-1 min-h-[120px]">
-            <ContainerNode
-              v-if="child.type === 'container'"
-              :node="child"
-              :selected-id="selectedId"
-              @select="emit('select', $event)"
-              @drop-node="emit('drop-node', $event)"
-            />
-            <LeafNode v-else :node="child" :selected-id="selectedId" @select="emit('select', $event)" />
-          </div>
+          <ContainerNode
+            v-if="child.type === 'container'"
+            :node="child"
+            :selected-id="selectedId"
+            :style="childContainerStyle(child)"
+            class="min-h-[120px]"
+            @select="emit('select', $event)"
+            @drop-node="emit('drop-node', $event)"
+          />
+          <LeafNode v-else :node="child" :selected-id="selectedId" @select="emit('select', $event)" />
         </template>
       </template>
       <div v-else class="flex h-full items-center justify-center text-xs text-slate-400">
@@ -63,11 +63,24 @@ const emit = defineEmits<{
 
 const isSelected = computed(() => props.selectedId === props.node.id);
 
-const containerStyle = computed(() => ({
-  width: props.node.props.width,
-  height: props.node.props.height,
-  background: props.node.props.background
-}));
+const selfAlignMap: Record<ContainerType['props']['alignSelf'], string> = {
+  auto: 'auto',
+  stretch: 'stretch',
+  start: 'flex-start',
+  center: 'center',
+  end: 'flex-end'
+};
+
+const containerStyle = computed(() => {
+  const width = props.node.props.width;
+  const isFlexible = width === 'auto' || width === '' || width === '100%';
+  return {
+    width,
+    height: props.node.props.height,
+    alignSelf: selfAlignMap[props.node.props.alignSelf],
+    flex: isFlexible ? '1 1 0%' : '0 0 auto'
+  };
+});
 
 const justifyMap: Record<ContainerType['props']['justify'], string> = {
   start: 'flex-start',
@@ -103,5 +116,16 @@ function handleDrop(event: DragEvent) {
 
 function handleSelect() {
   emit('select', props.node.id);
+}
+
+function childContainerStyle(child: ContainerType) {
+  const width = child.props.width;
+  const isFlexible = width === 'auto' || width === '' || width === '100%';
+  return {
+    width,
+    height: child.props.height,
+    alignSelf: selfAlignMap[child.props.alignSelf],
+    flex: isFlexible ? '1 1 0%' : '0 0 auto'
+  };
 }
 </script>
