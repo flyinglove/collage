@@ -14,6 +14,25 @@
   },
   "children": [
     {
+      "id": "main-nav",
+      "type": "navbar",
+      "props": {
+        "logoText": "Collage",
+        "logoImage": "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=200&q=80",
+        "links": [
+          { "label": "产品", "href": "#product" },
+          { "label": "方案", "href": "#solutions" },
+          { "label": "案例", "href": "#cases" },
+          { "label": "支持", "href": "#support" }
+        ],
+        "ctaLabel": "免费试用",
+        "ctaHref": "#trial",
+        "background": "rgba(255,255,255,0.9)",
+        "textColor": "#0f172a",
+        "sticky": true
+      }
+    },
+    {
       "id": "hero",
       "type": "container",
       "props": {
@@ -51,6 +70,35 @@
       ]
     },
     {
+      "id": "hero-carousel",
+      "type": "carousel",
+      "props": {
+        "slides": [
+          {
+            "src": "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
+            "alt": "业务增长图表",
+            "caption": "实时洞察业务增长"
+          },
+          {
+            "src": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+            "alt": "团队协作场景",
+            "caption": "跨团队协作效率提升"
+          },
+          {
+            "src": "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1200&q=80",
+            "alt": "智能仪表盘",
+            "caption": "数据驱动的智能决策"
+          }
+        ],
+        "autoPlay": true,
+        "interval": 5000,
+        "showIndicators": true,
+        "showControls": true,
+        "height": "420px",
+        "radius": 24
+      }
+    },
+    {
       "id": "feature",
       "type": "container",
       "props": {
@@ -83,6 +131,43 @@
             "alt": "拖拽搭建示意图",
             "objectFit": "cover",
             "radius": 16
+          }
+        }
+      ]
+    },
+    {
+      "id": "product-highlight",
+      "type": "container",
+      "props": {
+        "name": "产品亮点",
+        "layout": "vertical",
+        "align": "center",
+        "justify": "center",
+        "gap": 16,
+        "padding": 16,
+        "width": "100%",
+        "height": "auto",
+        "alignSelf": "stretch"
+      },
+      "children": [
+        {
+          "id": "product-card",
+          "type": "productCard",
+          "props": {
+            "title": "AI 智能营销助手",
+            "description": "借助 AI 自动生成页面布局、内容与 A/B 测试方案，帮助营销团队快速验证创意。",
+            "price": "¥299/月",
+            "image": "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=1200&q=80",
+            "rating": 4.8,
+            "reviewCount": 268,
+            "ctaLabel": "查看详情",
+            "ctaHref": "#product",
+            "features": [
+              { "label": "支持多渠道内容投放" },
+              { "label": "内置 30+ 行业页面模板" },
+              { "label": "实时转化率监控与预测" }
+            ],
+            "background": "#f8fafc"
           }
         }
       ]
