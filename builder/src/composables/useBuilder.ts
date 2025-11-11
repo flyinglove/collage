@@ -1,6 +1,18 @@
 import { computed, reactive, ref } from 'vue';
 import { v4 as uuid } from 'uuid';
-import type { ButtonNode, ComponentType, ContainerNode, ContainerProps, DesignNode, ImageNode, PaletteItem, TextNode } from '../types';
+import type {
+  ButtonNode,
+  CarouselNode,
+  ComponentType,
+  ContainerNode,
+  ContainerProps,
+  DesignNode,
+  ImageNode,
+  NavbarNode,
+  PaletteItem,
+  ProductCardNode,
+  TextNode
+} from '../types';
 
 const palette: PaletteItem[] = [
   {
@@ -30,6 +42,27 @@ const palette: PaletteItem[] = [
     description: '可配置颜色与动作的按钮',
     icon: 'mdi-gesture-tap-button',
     type: 'button'
+  },
+  {
+    id: 'carousel',
+    label: '轮播图',
+    description: '展示多张图片并可自动轮播',
+    icon: 'mdi-view-carousel',
+    type: 'carousel'
+  },
+  {
+    id: 'navbar',
+    label: '导航栏',
+    description: '包含 Logo 和导航链接的顶部栏',
+    icon: 'mdi-menu',
+    type: 'navbar'
+  },
+  {
+    id: 'product-card',
+    label: '商品卡片',
+    description: '展示商品信息、价格与亮点',
+    icon: 'mdi-package-variant',
+    type: 'productCard'
   }
 ];
 
@@ -94,16 +127,92 @@ function createNode(type: 'container' | ComponentType): DesignNode {
     }) as ImageNode;
   }
 
+  if (type === 'button') {
+    return reactive({
+      id: uuid(),
+      type: 'button',
+      props: {
+        label: '立即行动',
+        action: '#',
+        background: '#2563eb',
+        color: '#ffffff'
+      }
+    }) as ButtonNode;
+  }
+
+  if (type === 'carousel') {
+    return reactive({
+      id: uuid(),
+      type: 'carousel',
+      props: {
+        slides: [
+          {
+            src: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80',
+            alt: '团队协作',
+            caption: '打造高效团队协作体验'
+          },
+          {
+            src: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
+            alt: '产品演示',
+            caption: '展示产品核心亮点'
+          },
+          {
+            src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80',
+            alt: '品牌形象'
+          }
+        ],
+        autoPlay: true,
+        interval: 4000,
+        showIndicators: true,
+        showControls: true,
+        height: '360px',
+        radius: 16
+      }
+    }) as CarouselNode;
+  }
+
+  if (type === 'navbar') {
+    return reactive({
+      id: uuid(),
+      type: 'navbar',
+      props: {
+        logoText: 'Collage',
+        links: [
+          { label: '产品', href: '#product' },
+          { label: '方案', href: '#solutions' },
+          { label: '价格', href: '#pricing' },
+          { label: '博客', href: '#blog' }
+        ],
+        ctaLabel: '免费试用',
+        ctaHref: '#',
+        background: '#ffffff',
+        textColor: '#0f172a',
+        sticky: false
+      }
+    }) as NavbarNode;
+  }
+
   return reactive({
     id: uuid(),
-    type: 'button',
+    type: 'productCard',
     props: {
-      label: '立即行动',
-      action: '#',
-      background: '#2563eb',
-      color: '#ffffff'
+      title: '旗舰智能耳机',
+      description: '全新主动降噪与空间音频体验，带来沉浸式音乐享受。',
+      price: '¥1999',
+      image:
+        'https://images.unsplash.com/photo-1580894908361-967195033215?auto=format&fit=crop&w=1200&q=80',
+      rating: 4.8,
+      reviewCount: 328,
+      ctaLabel: '立即购买',
+      ctaHref: '#',
+      features: [
+        { label: '智能降噪 Pro' },
+        { label: '续航 28 小时' },
+        { label: '无线充电' }
+      ],
+      background: '#ffffff'
     }
-  }) as ButtonNode;
+  }) as ProductCardNode;
 }
 
 function traverse(node: DesignNode, targetId: string, cb: (node: DesignNode, parent?: ContainerNode) => void, parent?: ContainerNode) {

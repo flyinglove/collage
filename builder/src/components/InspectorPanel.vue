@@ -143,6 +143,227 @@
         </div>
       </div>
     </template>
+
+    <template v-else-if="node.type === 'carousel'">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <label class="label mb-0">轮播图幻灯片</label>
+          <button class="text-xs text-blue-600 hover:text-blue-500" type="button" @click="addCarouselSlide">添加幻灯片</button>
+        </div>
+        <div v-if="node.props.slides.length" class="space-y-3">
+          <article
+            v-for="(slide, index) in node.props.slides"
+            :key="slide.src + index"
+            class="rounded-lg border border-slate-200 p-3 space-y-3"
+          >
+            <header class="flex items-center justify-between text-xs text-slate-500">
+              <span>幻灯片 {{ index + 1 }}</span>
+              <button
+                class="text-red-500 hover:text-red-400"
+                type="button"
+                @click="removeCarouselSlide(index)"
+              >
+                删除
+              </button>
+            </header>
+            <div class="space-y-2">
+              <div>
+                <label class="label">图片链接</label>
+                <input v-model="slide.src" class="input" placeholder="https://" type="text" />
+              </div>
+              <div>
+                <label class="label">图片说明</label>
+                <input v-model="slide.alt" class="input" type="text" />
+              </div>
+              <div>
+                <label class="label">字幕</label>
+                <input v-model="slide.caption" class="input" placeholder="可选" type="text" />
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="grid grid-cols-2 gap-4 items-end">
+          <div>
+            <label class="label mb-1">自动播放</label>
+            <div class="flex items-center gap-2 text-xs text-slate-500">
+              <input
+                v-model="node.props.autoPlay"
+                :id="`carousel-autoplay-${node.id}`"
+                class="h-4 w-4"
+                type="checkbox"
+              />
+              <label class="cursor-pointer" :for="`carousel-autoplay-${node.id}`">启用自动轮播</label>
+            </div>
+          </div>
+          <div>
+            <label class="label">间隔 (毫秒)</label>
+            <input v-model.number="node.props.interval" class="input" min="2000" step="500" type="number" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex items-center gap-2">
+            <input
+              v-model="node.props.showIndicators"
+              :id="`carousel-indicators-${node.id}`"
+              class="h-4 w-4"
+              type="checkbox"
+            />
+            <label class="text-xs text-slate-500" :for="`carousel-indicators-${node.id}`">显示指示器</label>
+          </div>
+          <div class="flex items-center gap-2">
+            <input
+              v-model="node.props.showControls"
+              :id="`carousel-controls-${node.id}`"
+              class="h-4 w-4"
+              type="checkbox"
+            />
+            <label class="text-xs text-slate-500" :for="`carousel-controls-${node.id}`">显示切换按钮</label>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="label">高度</label>
+            <input v-model="node.props.height" class="input" placeholder="例如 360px" />
+          </div>
+          <div>
+            <label class="label">圆角 (px)</label>
+            <input v-model.number="node.props.radius" class="input" min="0" type="number" />
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template v-else-if="node.type === 'navbar'">
+      <div class="space-y-4">
+        <div>
+          <label class="label">Logo 文案</label>
+          <input v-model="node.props.logoText" class="input" type="text" />
+        </div>
+        <div>
+          <label class="label">Logo 图片 (可选)</label>
+          <input v-model="node.props.logoImage" class="input" placeholder="https://" type="text" />
+        </div>
+        <div class="flex items-center justify-between">
+          <label class="label mb-0">导航链接</label>
+          <button class="text-xs text-blue-600 hover:text-blue-500" type="button" @click="addNavbarLink">添加链接</button>
+        </div>
+        <div v-if="node.props.links.length" class="space-y-3">
+          <article
+            v-for="(link, index) in node.props.links"
+            :key="link.label + index"
+            class="rounded-lg border border-slate-200 p-3 space-y-3"
+          >
+            <header class="flex items-center justify-between text-xs text-slate-500">
+              <span>链接 {{ index + 1 }}</span>
+              <button class="text-red-500 hover:text-red-400" type="button" @click="removeNavbarLink(index)">删除</button>
+            </header>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="label">标题</label>
+                <input v-model="link.label" class="input" type="text" />
+              </div>
+              <div>
+                <label class="label">链接</label>
+                <input v-model="link.href" class="input" placeholder="#" type="text" />
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="label">CTA 文案</label>
+            <input v-model="node.props.ctaLabel" class="input" placeholder="可选" type="text" />
+          </div>
+          <div>
+            <label class="label">CTA 链接</label>
+            <input v-model="node.props.ctaHref" class="input" placeholder="#" type="text" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="label">背景颜色</label>
+            <input v-model="node.props.background" class="input" type="color" />
+          </div>
+          <div>
+            <label class="label">文字颜色</label>
+            <input v-model="node.props.textColor" class="input" type="color" />
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <input
+            v-model="node.props.sticky"
+            :id="`navbar-sticky-${node.id}`"
+            class="h-4 w-4"
+            type="checkbox"
+          />
+          <label class="text-xs text-slate-500" :for="`navbar-sticky-${node.id}`">滚动时保持吸顶</label>
+        </div>
+      </div>
+    </template>
+
+    <template v-else-if="node.type === 'productCard'">
+      <div class="space-y-4">
+        <div>
+          <label class="label">标题</label>
+          <input v-model="node.props.title" class="input" type="text" />
+        </div>
+        <div>
+          <label class="label">描述</label>
+          <textarea v-model="node.props.description" class="input resize-none" rows="3"></textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="label">价格</label>
+            <input v-model="node.props.price" class="input" type="text" />
+          </div>
+          <div>
+            <label class="label">主图链接</label>
+            <input v-model="node.props.image" class="input" placeholder="https://" type="text" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="label">评分</label>
+            <input v-model.number="node.props.rating" class="input" max="5" min="0" step="0.1" type="number" />
+          </div>
+          <div>
+            <label class="label">评价数量</label>
+            <input v-model.number="node.props.reviewCount" class="input" min="0" type="number" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="label">CTA 文案</label>
+            <input v-model="node.props.ctaLabel" class="input" type="text" />
+          </div>
+          <div>
+            <label class="label">CTA 链接</label>
+            <input v-model="node.props.ctaHref" class="input" placeholder="#" type="text" />
+          </div>
+        </div>
+        <div>
+          <label class="label">背景颜色</label>
+          <input v-model="node.props.background" class="input" type="color" />
+        </div>
+        <div class="flex items-center justify-between">
+          <label class="label mb-0">商品亮点</label>
+          <button class="text-xs text-blue-600 hover:text-blue-500" type="button" @click="addProductFeature">添加亮点</button>
+        </div>
+        <div v-if="node.props.features.length" class="space-y-3">
+          <article
+            v-for="(feature, index) in node.props.features"
+            :key="feature.label + index"
+            class="rounded-lg border border-slate-200 p-3 space-y-2"
+          >
+            <header class="flex items-center justify-between text-xs text-slate-500">
+              <span>亮点 {{ index + 1 }}</span>
+              <button class="text-red-500 hover:text-red-400" type="button" @click="removeProductFeature(index)">删除</button>
+            </header>
+            <input v-model="feature.label" class="input" placeholder="例如：支持无线充电" type="text" />
+          </article>
+        </div>
+      </div>
+    </template>
   </section>
   <p v-else class="text-sm text-slate-400">请选择一个元素进行配置。</p>
 </template>
@@ -170,6 +391,12 @@ const title = computed(() => {
       return '图片组件';
     case 'button':
       return '按钮组件';
+    case 'carousel':
+      return '轮播图组件';
+    case 'navbar':
+      return '导航栏组件';
+    case 'productCard':
+      return '商品卡片组件';
     default:
       return '元素配置';
   }
@@ -186,6 +413,36 @@ watch(
   },
   { immediate: true }
 );
+
+function addCarouselSlide() {
+  if (props.node?.type !== 'carousel') return;
+  props.node.props.slides.push({ src: '', alt: '', caption: '' });
+}
+
+function removeCarouselSlide(index: number) {
+  if (props.node?.type !== 'carousel') return;
+  props.node.props.slides.splice(index, 1);
+}
+
+function addNavbarLink() {
+  if (props.node?.type !== 'navbar') return;
+  props.node.props.links.push({ label: '新链接', href: '#' });
+}
+
+function removeNavbarLink(index: number) {
+  if (props.node?.type !== 'navbar') return;
+  props.node.props.links.splice(index, 1);
+}
+
+function addProductFeature() {
+  if (props.node?.type !== 'productCard') return;
+  props.node.props.features.push({ label: '新的卖点' });
+}
+
+function removeProductFeature(index: number) {
+  if (props.node?.type !== 'productCard') return;
+  props.node.props.features.splice(index, 1);
+}
 </script>
 
 <style scoped>

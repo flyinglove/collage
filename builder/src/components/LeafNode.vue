@@ -12,7 +12,10 @@
 import { computed } from 'vue';
 import type { DesignNode } from '../types';
 import ButtonPreview from './preview/ButtonPreview.vue';
+import CarouselPreview from './preview/CarouselPreview.vue';
 import ImagePreview from './preview/ImagePreview.vue';
+import NavbarPreview from './preview/NavbarPreview.vue';
+import ProductCardPreview from './preview/ProductCardPreview.vue';
 import TextPreview from './preview/TextPreview.vue';
 
 const props = defineProps<{
@@ -27,7 +30,10 @@ const emit = defineEmits<{
 const map = {
   text: TextPreview,
   image: ImagePreview,
-  button: ButtonPreview
+  button: ButtonPreview,
+  carousel: CarouselPreview,
+  navbar: NavbarPreview,
+  productCard: ProductCardPreview
 } as const;
 
 const isSelected = computed(() => props.node.id === props.selectedId);
