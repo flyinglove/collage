@@ -1,0 +1,91 @@
+{
+  "id": "root",
+  "type": "container",
+  "props": {
+    "name": "页面根容器",
+    "layout": "vertical",
+    "align": "stretch",
+    "justify": "center",
+    "gap": 24,
+    "padding": 48,
+    "width": "100%",
+    "height": "auto",
+    "background": "#f8fafc"
+  },
+  "children": [
+    {
+      "id": "hero",
+      "type": "container",
+      "props": {
+        "name": "头部区域",
+        "layout": "vertical",
+        "align": "center",
+        "justify": "center",
+        "gap": 16,
+        "padding": 48,
+        "width": "100%",
+        "height": "auto",
+        "background": "#ffffff"
+      },
+      "children": [
+        {
+          "id": "hero-text",
+          "type": "text",
+          "props": {
+            "text": "打造高转化率的营销页面",
+            "align": "center",
+            "fontSize": 36,
+            "color": "#0f172a"
+          }
+        },
+        {
+          "id": "hero-button",
+          "type": "button",
+          "props": {
+            "label": "立即体验 Collage",
+            "action": "https://example.com",
+            "background": "#2563eb",
+            "color": "#ffffff"
+          }
+        }
+      ]
+    },
+    {
+      "id": "feature",
+      "type": "container",
+      "props": {
+        "name": "功能介绍",
+        "layout": "horizontal",
+        "align": "stretch",
+        "justify": "between",
+        "gap": 16,
+        "padding": 32,
+        "width": "100%",
+        "height": "auto",
+        "background": "#ffffff"
+      },
+      "children": [
+        {
+          "id": "feature-text",
+          "type": "text",
+          "props": {
+            "text": "通过拖拽容器快速构建页面布局，并实时预览渲染效果。",
+            "align": "left",
+            "fontSize": 18,
+            "color": "#475569"
+          }
+        },
+        {
+          "id": "feature-image",
+          "type": "image",
+          "props": {
+            "src": "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=800&q=80",
+            "alt": "拖拽搭建示意图",
+            "objectFit": "cover",
+            "radius": 16
+          }
+        }
+      ]
+    }
+  ]
+}
