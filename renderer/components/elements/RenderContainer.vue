@@ -1,5 +1,5 @@
 <template>
-  <section :style="containerStyle" class="rounded-3xl shadow-sm border border-slate-200 bg-white">
+  <section :style="containerStyle">
     <template v-if="node.children?.length">
       <RenderNode v-for="child in node.children" :key="child.id" :node="child" />
     </template>
@@ -28,16 +28,28 @@ const alignMap = {
   end: 'flex-end'
 } as const;
 
-const containerStyle = computed(() => ({
-  display: 'flex',
-  flexDirection: props.node.props.layout === 'vertical' ? 'column' : 'row',
-  gap: `${props.node.props.gap}px`,
-  padding: `${props.node.props.padding}px`,
-  justifyContent: justifyMap[props.node.props.justify],
-  alignItems: alignMap[props.node.props.align],
-  width: props.node.props.width,
-  height: props.node.props.height,
-  background: props.node.props.background,
-  flex: '1 1 0%'
-}));
+const selfAlignMap = {
+  auto: 'auto',
+  stretch: 'stretch',
+  start: 'flex-start',
+  center: 'center',
+  end: 'flex-end'
+} as const;
+
+const containerStyle = computed(() => {
+  const width = props.node.props.width;
+  const isFlexible = width === 'auto' || width === '' || width === '100%';
+  return {
+    display: 'flex',
+    flexDirection: props.node.props.layout === 'vertical' ? 'column' : 'row',
+    gap: `${props.node.props.gap}px`,
+    padding: `${props.node.props.padding}px`,
+    justifyContent: justifyMap[props.node.props.justify],
+    alignItems: alignMap[props.node.props.align],
+    width,
+    height: props.node.props.height,
+    alignSelf: selfAlignMap[props.node.props.alignSelf],
+    flex: isFlexible ? '1 1 0%' : '0 0 auto'
+  };
+});
 </script>
