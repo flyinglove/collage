@@ -8,6 +8,9 @@
     <section v-if="design" class="space-y-8">
       <RenderNode :node="design" />
     </section>
+    <p v-else-if="error" class="text-center text-red-500">
+      页面配置加载失败，请稍后重试。
+    </p>
     <p v-else class="text-center text-slate-500">未找到页面配置，请确认 public/design.json 是否存在。</p>
   </main>
 </template>
@@ -16,5 +19,8 @@
 import RenderNode from '~/components/RenderNode.vue';
 import type { ContainerNode } from '~/types';
 
-const { data: design } = await useAsyncData<ContainerNode>('design', () => $fetch('/design.json'));
+const { data: design, error } = await useFetch<ContainerNode>('/api/design', {
+  server: true,
+  default: () => null
+});
 </script>
